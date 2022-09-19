@@ -1,22 +1,53 @@
 import './App.css';
 import React, { useState, setState } from 'react';
 import logo from './logo.png'
+/*
+var axios = require('axios');
+var data = JSON.stringify({
+    "collection": "Test Collection",
+    "database": "Test",
+    "dataSource": "TestCluster",
+    "projection": {
+        "_id": 1
+    }
+});
 
+            
+var config = {
+    method: 'post',
+    url: 'https://data.mongodb-api.com/app/data-ytjwq/endpoint/data/v1/action/findOne',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Request-Headers': '*',
+      'api-key': 'YHze2ryYyTptJ7b6mjnXxtmRZe70BXGTrg6Fb86FJQ7VAX5q9pk7kiH5eKXfmOuC',
+    },
+    data: data
+};
+            
+axios(config)
+    .then(function (response) {
+        console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
+*/
 
 let classes = {
   rogue: {
   'hitDice': 'd8',
-  level1: {'proficiencies': [],
-          'features': ['Sneak Attack']},
+  level1: { 'proficiencies': ['Light armor', 'Simple weapons', 'hand crossbows', 'longswords', 'rapiers', 'shortswords', 'Thieves tools'],
+            'savingThrows': ['Dexterity', 'Intelligence'],
+            'features': ['Sneak Attack', 'Expertise', 'Thieves Cant']},
   level2: { 'features': ['Cunning Action']},
-  level3: {'subclassFeatures': [],
-          'features': []	       },
-  level4: { 'features': []	       },
-  level5: { 'features': []	       },
+  level3: {'subclassFeatures': [],},
+  level4: { 'features': ['ASI']},
+  level5: { 'features': [`Uncanny Dodge`]},
   },
   fighter: {
     'hitDice': 'd10',
-    level1: {'proficiencies': [],
+    level1: {'proficiencies': [`Simple Weapons`],
             'features': ['Fighting Style', `Second Wind`]},
     level2: { 'features': ['Action Surge']       },
     level3: {'subclass': [],
@@ -88,7 +119,9 @@ addLevel = className => {
     this.setState({
       
       characterClassFeatures: newClassFeatures
-     })
+     }, function() {
+      console.log(this.state.characterClassFeatures)
+    })
               
 
 }
