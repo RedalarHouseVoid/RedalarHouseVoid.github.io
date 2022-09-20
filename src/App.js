@@ -530,10 +530,11 @@ componentDidUpdate() {
       <button onClick={() => httpSend()}>Test HTTP</button>
       <img className="logo" src={logo} alt="Logo"></img>
       <p>{this.state.characterLevel.map(item => item = item.slice(0, 1).toUpperCase() + item.slice(1, item.length)).join(', ')}</p>
-      <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 ? Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)}</p>
-      <p>Highest Level Spell Known {Math.ceil(this.state.characterSpellcasterKnownLevel / 2)}</p>
-      <p>Number of Attacks {this.state.characterAttacks}</p>
-      <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p>
+      {Math.round(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Slot {Math.round(this.state.characterSpellcasterSlotLevel / 2)}</p> : <p></p>} 
+      {Math.round(this.state.characterSpellcasterKnownLevel / 2) > 0 ? <p>Highest Level Spell Known {Math.round(this.state.characterSpellcasterKnownLevel / 2)}</p> : <p></p>}
+      {this.state.characterAttacks > 1 ? <p>Number of Attacks {this.state.characterAttacks}</p> : <p></p>}
+      {Math.round(this.state.characterSneakAttackLevel / 2) > 0 ? <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p> : <p></p>}
+     
       </div>
       
        
