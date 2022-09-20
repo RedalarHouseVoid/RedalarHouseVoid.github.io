@@ -545,6 +545,7 @@ componentDidUpdate() {
       <button onClick={() => this.addLevel('cleric')}>Add Cleric Level</button>
       <button onClick={() => this.addLevel('bard')}>Add Bard Level</button>
       <button onClick={() => this.addLevel('sorcerer')}>Add Sorcerer Level</button>
+      <button onClick={() => this.addLevel('artificer')}>Add Artificer Level</button>
       <button onClick={() => this.addLevel('paladin')}>Add Paladin Level</button>
       <button onClick={() => this.addLevel('ranger')}>Add Ranger Level</button>
       <button onClick={() => this.addLevel('rogue')}>Add Rogue Level</button>
