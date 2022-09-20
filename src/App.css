@@ -32,12 +32,20 @@ div.classButtons {
   height: 10px;
 }
 
+div.level {
+  border: 2px solid rgb(156, 142, 62);
+  border-radius: 12px;
+  width: 110px;
+  margin-bottom:5px;
+}
+
 .classLevelerContainer {
   display: grid;
-  grid-template-columns: 6% 11% 6%;
+  grid-template-columns: 30% 43% 20%;
   gap: 0px 0px;
-  height: 30px;
-  margin-bottom:px;
+  height: 40px;
+  margin-bottom:20px;
+  margin-top:20px;
 }
 
 p.level-box {
@@ -45,27 +53,44 @@ p.level-box {
   height: 10px;
 }
 
-button.level-button-left {
+div.level-button-left {
   height: 20px;
   width: 25px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  color: rgb(156, 142, 62);
+  font-size: 20px;
 }
 
-button.level-button-right {
+div.level-button-right {
   height: 20px;
   width: 25px;
+  margin-top: 2px;
+  margin-bottom: 10px;
+  color: rgb(156, 142, 62);
+  font-size: 20px;
+}
+
+div.level-button-right:hover {
+  color: rgb(131, 128, 128)
 }
 
 div.level-val {
   margin-left: 10px;
   width: 20px;
-  border: 1px solid black;
+  border: 2px solid rgb(156, 142, 62);
   font-size: medium;
   text-align: center;
+  border-radius: 4px;
 }
+
+
 
 div.level-class {
   text-align: center;
-  width: 90px;
+  width: 110px;
+  font-size: large;
+  margin-top: 1px;
 }
 
 .classFeatures {
@@ -75,4 +100,17 @@ div.level-class {
   overflow: auto;
 
   
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #282c34;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  box-shadow: inset 0 0 3px grey;
+  border-radius: 5px;
 }

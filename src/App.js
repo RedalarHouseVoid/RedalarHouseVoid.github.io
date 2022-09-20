@@ -359,6 +359,17 @@ let classes = {
 
   }
  
+function spellcastingValue (className) {
+  if(className  === 'druid'  ||className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric') {
+    return 'full caster'
+  } else if (className  == 'druid'  ||className === 'sorcerer') {
+    return 'half caster'
+  } else if(className == 'artificer') {
+    return 'artificer'
+  } else {
+    return 'zero caster'
+  }
+}
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -553,6 +564,61 @@ if( className == 'druid'  || className === 'sorcerer' || className === 'wizard' 
               
 
 }
+
+adjustLevel = className => {
+  
+  let currentLevel = this.state.characterLevel.find(item => item.startsWith(className))
+ 
+  if(currentLevel) {
+  //find current level in class and increment
+  currentLevel = parseInt(currentLevel.split(' ')[1]) + 1
+  let index = this.state.characterLevel.findIndex(item => item.startsWith(className))
+  let newCharacterLevel = this.state.characterLevel
+  newCharacterLevel.splice(index, 1, `${className} ${currentLevel}`)
+  //set value
+  this.setState({
+    characterLevel: newCharacterLevel
+  }, () => {
+
+  
+    for(let className of this.state.characterLevel) {
+      console.log(`handler run on`, className)
+      console.log(`spellcaster status of ${className}`, spellcastingValue(className))
+    }
+      
+  })
+  
+  } else {
+    //set value to level 1 in class
+    this.setState({
+      characterLevel: this.state.characterLevel.concat([`${className} 1`])
+    }, () => {
+
+      let casterKnownLevel = 0
+      let casterSlotLevel = 0
+      for(let className of this.state.characterLevel) {
+        console.log(`handler run on`, className)
+        console.log(`spellcaster status of ${className}`, spellcastingValue(className))
+        //spells handler. with allowances for artificer weirdness
+        if(spellcastingValue(className) == 'full caster' || spellcastingValue(className) == 'artificer') {
+          casterKnownLevel += 1
+          casterSlotLevel += 1
+        } else if(spellcastingValue(className) == 'half caster') {
+          casterKnownLevel += .5
+          casterSlotLevel += .5
+        }
+        
+      }
+      console.log(`effective known level`, casterKnownLevel)
+      console.log(`effective slot level`, casterSlotLevel)
+     
+
+    })
+  }
+  
+ 
+  
+  }
 componentDidUpdate() {
   console.log(this.state)
  
@@ -568,7 +634,7 @@ componentDidUpdate() {
       <div className='App-header'>
       <div className='left'>
       <div className='classButtons'>
-      {Object.entries(classes).map((item, i) => { return <ClassLeveler key={i} className = {item[0]} addLevel={this.addLevel}/>})}
+      {Object.entries(classes).sort().map((item, i) => { return <ClassLeveler key={i} className = {item[0]} addLevel={this.adjustLevel} state={this.state}/>})}
 
       </div>
   
@@ -609,12 +675,14 @@ class ClassFeatureList extends React.Component {
 class ClassLeveler extends React.Component { 
   render() { 
      return ( 
+      <div className='level'>
         <div className='classLevelerContainer'> 
-          <button className='level-button-left'>-</button>
+          <div className='level-button-left'>-</div>
           <div className="level-val">1</div>
-          <button className='level-button-right' onClick={() => this.props.addLevel(this.props.className)}>+</button>
+          <div className='level-button-right' onClick={() => this.props.addLevel(this.props.className)}>+</div>
           <div className='level-class'>{this.props.className}</div>
         </div> 
+      </div>
      ); 
   }
 } 
