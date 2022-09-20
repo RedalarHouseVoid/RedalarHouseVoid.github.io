@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/DND-Multiclass-Builder-God/static/css/main.b2ac6209.css",
+    "main.js": "/DND-Multiclass-Builder-God/static/js/main.96d95126.js",
+    "static/js/787.5633ae41.chunk.js": "/DND-Multiclass-Builder-God/static/js/787.5633ae41.chunk.js",
+    "static/media/logo.png": "/DND-Multiclass-Builder-God/static/media/logo.b35c3cf2f4e18c7314ad.png",
+    "index.html": "/DND-Multiclass-Builder-God/index.html",
+    "main.b2ac6209.css.map": "/DND-Multiclass-Builder-God/static/css/main.b2ac6209.css.map",
+    "main.96d95126.js.map": "/DND-Multiclass-Builder-God/static/js/main.96d95126.js.map",
+    "787.5633ae41.chunk.js.map": "/DND-Multiclass-Builder-God/static/js/787.5633ae41.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b2ac6209.css",
+    "static/js/main.96d95126.js"
+  ]
+}
