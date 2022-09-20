@@ -173,8 +173,12 @@ addLevel = className => {
       }, () => {
         //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
        let spellcastingClasses = this.state.characterLevel.filter(item => !item.startsWith('Sorcerer')  || !item.startsWith('Wizard') || !item.startsWith('Bard') || !item.startsWith('Cleric') || !item.startsWith('Paladin') || !item.startsWith('Ranger') || !item.startsWith('Artificer') )
-       spellcastingClasses.sort((a, b) => a.split(' ')[1] - b.split(' ')[1])
-       console.log(spellcastingClasses)   })
+       spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
+       spellcastingClasses.map(item => {
+        if(!item.startsWith('Paladin') || !item.startsWith('Ranger') || !item.startsWith('Artificer'))
+        item = item.split(' ')[0] +  (item.split(' ')[1] / 2)
+       })
+       console.log(`spellcasting classes array`,spellcastingClasses)   })
 
      
       
@@ -248,7 +252,7 @@ addLevel = className => {
          //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
         let spellcastingClasses = this.state.characterLevel.filter(item => !item.startsWith('Sorcerer')  || !item.startsWith('Wizard') || !item.startsWith('Bard') || !item.startsWith('Cleric') || !item.startsWith('Paladin') || !item.startsWith('Ranger') || !item.startsWith('Artificer') )
         spellcastingClasses.sort((a, b) => a.split(' ')[1] - b.split(' ')[1])
-        console.log(spellcastingClasses)   })
+        console.log(`spellcasting classes array`,spellcastingClasses)   })
 
 
 
