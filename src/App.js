@@ -54,21 +54,21 @@ let classes = {
   level3: {'features': ['Roguish Archetype']},
   level4: { 'features': ['ASI']},
   level5: { 'features': [`Uncanny Dodge`]},
-  level6: { 'features': []},
-  level7: { 'features': []},
-  level8: { 'features': []},
-  level9: { 'features': []},
-  level10: { 'features': []},
-  level11: { 'features': []},
-  level12: { 'features': []},
-  level13: { 'features': []},
-  level14: { 'features': []},
-  level15: { 'features': []},
-  level16: { 'features': []},
-  level17: { 'features': []},
-  level18: { 'features': []},
-  level19: { 'features': []},
-  level20: { 'features': []},
+  level6: { 'features': ['Expertise']},
+  level7: { 'features': ['Evasion']},
+  level8: { 'features': ['ASI']},
+  level9: { 'features': ['Roguish Archetype Feature']},
+  level10: { 'features': ['ASI']},
+  level11: { 'features': ['Reliable Talent']},
+  level12: { 'features': ['ASI']},
+  level13: { 'features': ['Roguish Archetype Feature']},
+  level14: { 'features': ['BlindSense']},
+  level15: { 'features': ['Slippery Mind']},
+  level16: { 'features': ['ASI']},
+  level17: { 'features': ['Roguish Archetype Feature']},
+  level18: { 'features': ['Elusive']},
+  level19: { 'features': ['ASI']},
+  level20: { 'features': ['Stroke of Luck']},
   },
   fighter: {
     'hitDice': 'd10',
@@ -79,21 +79,21 @@ let classes = {
     level3: {'features': ['Martial Archetype']},
     level4: { 'features': ['ASI']},
     level5: { 'features': ['Extra Attack (1)']},
-    level6: { 'features': []},
-    level7: { 'features': []},
-    level8: { 'features': []},
-    level9: { 'features': []},
-    level10: { 'features': []},
-    level11: { 'features': []},
-    level12: { 'features': []},
-    level13: { 'features': []},
-    level14: { 'features': []},
-    level15: { 'features': []},
-    level16: { 'features': []},
-    level17: { 'features': []},
-    level18: { 'features': []},
-    level19: { 'features': []},
-    level20: { 'features': []},
+    level6: { 'features': ['ASI']},
+    level7: { 'features': ['Martial Archetype Feature']},
+    level8: { 'features': ['ASI']},
+    level9: { 'features': ['Indomitable']},
+    level10: { 'features': ['Martial Archetype Feature']},
+    level11: { 'features': ['Extra Attack (2)']},
+    level12: { 'features': ['ASI']},
+    level13: { 'features': ['Indomitable (2)']},
+    level14: { 'features': ['ASI']},
+    level15: { 'features': ['Martial Archetype Feature']},
+    level16: { 'features': ['ASI']},
+    level17: { 'features': ['Action Surge (2)', 'Indomitable (3)']},
+    level18: { 'features': ['Martial Archetype Feature']},
+    level19: { 'features': ['ASI']},
+    level20: { 'features': ['Extra Attack (3)']},
     },
     paladin: {
       'hitDice': 'd10',
@@ -101,50 +101,208 @@ let classes = {
                'savingThrows': [`Wisdom`, `Charisma`],
               'features': ['Divine Sense', 'Lay on Hands']},
       level2: { 'features': [	'Fighting Style', 'Half Spellcasting', 'Divine Smite']},
-      level3: {'features': ['Sacred Oath']},
+      level3: {'features': ['Divine Health','Sacred Oath']},
       level4: { 'features': [`ASI`]},
       level5: { 'features': ['Extra Attack (1)']},
-      level6: { 'features': []},
-      level7: { 'features': []},
-      level8: { 'features': []},
+      level6: { 'features': ['Aura of Protection']},
+      level7: { 'features': ['Sacred Oath Feature']},
+      level8: { 'features': ['ASI']},
       level9: { 'features': []},
-      level10: { 'features': []},
-      level11: { 'features': []},
-      level12: { 'features': []},
+      level10: { 'features': ['Aura of Courage']},
+      level11: { 'features': ['Improved Divine Smite']},
+      level12: { 'features': ['ASI']},
       level13: { 'features': []},
-      level14: { 'features': []},
-      level15: { 'features': []},
-      level16: { 'features': []},
+      level14: { 'features': ['Cleansing Touch']},
+      level15: { 'features': ['Sacred Oath Feature']},
+      level16: { 'features': ['ASI']},
       level17: { 'features': []},
-      level18: { 'features': []},
-      level19: { 'features': []},
-      level20: { 'features': []},
+      level18: { 'features': ['Aura Improvements']},
+      level19: { 'features': ['ASI']},
+      level20: { 'features': ['Sacred Oath Feature']},
       },
       sorcerer: {
         'hitDice': 'd6',
         level1: {'proficiencies': ['Daggers', 'Darts', 'Slings', 'Quarterstaffs', 'Light Crossbows'],
+                 'savingThrows': [`Constitution`, `Charisma`],
                 'features': [	'Full Spellcasting', 'Sorcerous Origin']},
         level2: { 'features': ['Font of Magic']},
         level3: {'features': ['Metamagic']},
         level4: { 'features': [`ASI`]},
         level5: { 'features': []},
-        level6: { 'features': []},
+        level6: { 'features': ['Sorcerous Origin Feature']},
         level7: { 'features': []},
-        level8: { 'features': []},
+        level8: { 'features': ['ASI']},
         level9: { 'features': []},
-        level10: { 'features': []},
+        level10: { 'features': ['Metamagic']},
         level11: { 'features': []},
-        level12: { 'features': []},
+        level12: { 'features': ['ASI']},
         level13: { 'features': []},
-        level14: { 'features': []},
+        level14: { 'features': ['Sorcerous Origin Feature']},
         level15: { 'features': []},
-        level16: { 'features': []},
-        level17: { 'features': []},
-        level18: { 'features': []},
-        level19: { 'features': []},
-        level20: { 'features': []},
+        level16: { 'features': ['ASI']},
+        level17: { 'features': ['Metamagic']},
+        level18: { 'features': ['Sorcerous Origin Feature']},
+        level19: { 'features': ['ASI']},
+        level20: { 'features': ['Sorcerous Restoration']},
         
         },
+        barbarian: {
+          'hitDice': 'd12',
+          level1: {'proficiencies': ['Simple Weapons', 'Short Swords'],
+                  'savingThrows': [`Constitution`, `Strength`],
+                  'features': []},
+          level2: { 'features': []},
+          level3: {'features': []},
+          level4: { 'features': []},
+          level5: { 'features': []},
+          level6: { 'features': []},
+          level7: { 'features': []},
+          level8: { 'features': []},
+          level9: { 'features': []},
+          level10: { 'features': []},
+          level11: { 'features': []},
+          level12: { 'features': []},
+          level13: { 'features': []},
+          level14: { 'features': []},
+          level15: { 'features': []},
+          level16: { 'features': []},
+          level17: { 'features': []},
+          level18: { 'features': []},
+          level19: { 'features': []},
+          level20: { 'features': []},
+          
+          },
+          monk: {
+            'hitDice': 'd8',
+            level1: {'proficiencies': ['Light Armor', 'Medium Armor', 'Shields', 'Simple Weapons', 'Short Swords'],
+                      'savingThrows': [`Dexterity`, `Strength`],
+
+                    'features': []},
+            level2: { 'features': []},
+            level3: {'features': []},
+            level4: { 'features': []},
+            level5: { 'features': []},
+            level6: { 'features': []},
+            level7: { 'features': []},
+            level8: { 'features': []},
+            level9: { 'features': []},
+            level10: { 'features': []},
+            level11: { 'features': []},
+            level12: { 'features': []},
+            level13: { 'features': []},
+            level14: { 'features': []},
+            level15: { 'features': []},
+            level16: { 'features': []},
+            level17: { 'features': []},
+            level18: { 'features': []},
+            level19: { 'features': []},
+            level20: { 'features': []},
+            
+            },
+            ranger: {
+              'hitDice': 'd10',
+              level1: {'proficiencies': ['Light Armor', 'Medium Armor', 'Shields','Simple Weapons', 'Martial Weapons'],
+                       'savingThrows': [`Strength`, `Dexterity`],
+                      'features': []},
+              level2: { 'features': []},
+              level3: {'features': []},
+              level4: { 'features': []},
+              level5: { 'features': []},
+              level6: { 'features': []},
+              level7: { 'features': []},
+              level8: { 'features': []},
+              level9: { 'features': []},
+              level10: { 'features': []},
+              level11: { 'features': []},
+              level12: { 'features': []},
+              level13: { 'features': []},
+              level14: { 'features': []},
+              level15: { 'features': []},
+              level16: { 'features': []},
+              level17: { 'features': []},
+              level18: { 'features': []},
+              level19: { 'features': []},
+              level20: { 'features': []},
+              
+              },
+              wizard: {
+                'hitDice': 'd6',
+                level1: {'proficiencies': ['Daggers', 'Darts', 'Slings', 'Quarterstaffs', 'Light Crossbows'],
+                         'savingThrows': [`Intelligence`, `Wisdom`],
+                        'features': []},
+                level2: { 'features': []},
+                level3: {'features': []},
+                level4: { 'features': []},
+                level5: { 'features': []},
+                level6: { 'features': []},
+                level7: { 'features': []},
+                level8: { 'features': []},
+                level9: { 'features': []},
+                level10: { 'features': []},
+                level11: { 'features': []},
+                level12: { 'features': []},
+                level13: { 'features': []},
+                level14: { 'features': []},
+                level15: { 'features': []},
+                level16: { 'features': []},
+                level17: { 'features': []},
+                level18: { 'features': []},
+                level19: { 'features': []},
+                level20: { 'features': []},
+                
+                },
+                cleric: {
+                  'hitDice': 'd8',
+                  level1: {'proficiencies': ['Light Armor', 'Medium Armor', 'Shields' ,'Simple Weapons'],
+                           'savingThrows': [`Charisma`, `Wisdom`],
+                          'features': []},
+                  level2: { 'features': []},
+                  level3: {'features': []},
+                  level4: { 'features': []},
+                  level5: { 'features': []},
+                  level6: { 'features': []},
+                  level7: { 'features': []},
+                  level8: { 'features': []},
+                  level9: { 'features': []},
+                  level10: { 'features': []},
+                  level11: { 'features': []},
+                  level12: { 'features': []},
+                  level13: { 'features': []},
+                  level14: { 'features': []},
+                  level15: { 'features': []},
+                  level16: { 'features': []},
+                  level17: { 'features': []},
+                  level18: { 'features': []},
+                  level19: { 'features': []},
+                  level20: { 'features': []},
+                  
+                  },
+                  bard: {
+                    'hitDice': 'd8',
+                    level1: {'proficiencies': ['Light Armor', 'Hand Crossbows', 'Longswords', 'Rapiers', 'Shorts Swords'],
+                             'savingThrows': [`Intelligence`, `Wisdom`],
+                            'features': []},
+                    level2: { 'features': []},
+                    level3: {'features': []},
+                    level4: { 'features': []},
+                    level5: { 'features': []},
+                    level6: { 'features': []},
+                    level7: { 'features': []},
+                    level8: { 'features': []},
+                    level9: { 'features': []},
+                    level10: { 'features': []},
+                    level11: { 'features': []},
+                    level12: { 'features': []},
+                    level13: { 'features': []},
+                    level14: { 'features': []},
+                    level15: { 'features': []},
+                    level16: { 'features': []},
+                    level17: { 'features': []},
+                    level18: { 'features': []},
+                    level19: { 'features': []},
+                    level20: { 'features': []},
+                    
+                    },
 
   }
  
@@ -181,9 +339,16 @@ addLevel = className => {
   }
   spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
   console.log(`spellcasting classes array`,spellcastingClasses)  
-  this.setState({
-    characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
-  }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
+  if(spellcastingClasses[0].split(' ')[1] <= 17) {
+    this.setState({
+      characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
+    }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
+  } else {
+    this.setState({
+      characterSpellcasterKnownLevel: 17
+    }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
+  }
+ 
         }
       
 
@@ -212,13 +377,26 @@ addLevel = className => {
 
       //Spell Slot Level Handler
      if(className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric') {
-      this.setState({
-        characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
-      })
+      if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
+        this.setState({
+          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
+        })
+      } else {
+        this.setState({
+          characterSpellcasterSlotLevel: 17
+        })
+      }
+    
     }  else if( className === 'paladin' || className === 'ranger' || className === 'artificer') {
-      this.setState({
-        characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + .5
-      })
+      if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
+        this.setState({
+          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + .5
+        })
+      } else {
+        this.setState({
+          characterSpellcasterSlotLevel: 17
+        })
+      }
      
     }
 
@@ -269,8 +447,8 @@ addLevel = className => {
           spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0]  + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
          }
 
-        spellcastingClasses.sort((a, b) => a.split(' ')[1] - b.split(' ')[1])
-        console.log(`spellcasting classes array`,spellcastingClasses[0])
+        spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
+        console.log(`spellcasting classes array`,spellcastingClasses)
 
         this.setState({
           characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
@@ -337,16 +515,23 @@ componentDidUpdate() {
     return (
       <div className='App-header'>
       <div className='left'>
+      <button onClick={() => this.addLevel('wizard')}>Add Wizard Level</button>
+      <button onClick={() => this.addLevel('cleric')}>Add Cleric Level</button>
+      <button onClick={() => this.addLevel('bard')}>Add Bard Level</button>
+      <button onClick={() => this.addLevel('sorcerer')}>Add Sorcerer Level</button>
+      <button onClick={() => this.addLevel('paladin')}>Add Paladin Level</button>
+      <button onClick={() => this.addLevel('ranger')}>Add Ranger Level</button>
       <button onClick={() => this.addLevel('rogue')}>Add Rogue Level</button>
       <button onClick={() => this.addLevel('fighter')}>Add Fighter Level</button>
-      <button onClick={() => this.addLevel('paladin')}>Add Paladin Level</button>
-      <button onClick={() => this.addLevel('sorcerer')}>Add Sorcerer Level</button>
+      <button onClick={() => this.addLevel('barbarian')}>Add Barbarian Level</button>
+      <button onClick={() => this.addLevel('monk')}>Add Monk Level</button>
+    
+  
       <button onClick={() => httpSend()}>Test HTTP</button>
       <img className="logo" src={logo} alt="Logo"></img>
       <p>{this.state.characterLevel.map(item => item = item.slice(0, 1).toUpperCase() + item.slice(1, item.length)).join(', ')}</p>
-      <p>Spellcasting Level {this.state.characterLevel.length > 1 ? this.state.characterSpellcasterSlotLevel : Math.ceil(this.state.characterSpellcasterSlotLevel)}</p>
       <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 ? Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)}</p>
-      <p>Highest Level Spell Known {this.state.characterLevel.length > 1 ? Math.round(this.state.characterSpellcasterKnownLevel / 2) : Math.ceil(this.state.characterSpellcasterKnownLevel / 2)}</p>
+      <p>Highest Level Spell Known {Math.ceil(this.state.characterSpellcasterKnownLevel / 2)}</p>
       <p>Number of Attacks {this.state.characterAttacks}</p>
       <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p>
       </div>
