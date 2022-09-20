@@ -167,10 +167,14 @@ addLevel = className => {
        //path if this is not the first level in the class you're adding
       newLevel = parseInt(lastLevel.split('').filter(item => item.toLowerCase() === item.toUpperCase()).join('')) + 1
       
-      //adding class level to list of classes
+      //adding class level to list of classes, also using the callback here to ensure we have an updated characterLevel for spells known calculation
       this.setState({
         characterLevel: this.state.characterLevel.filter(item => !item.startsWith(`${className}`)).concat([`${className} ${newLevel}`]).sort()
-      })
+      }, () => {
+        //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
+       let spellcastingClasses = this.state.characterLevel.filter(item => !item.startsWith('Sorcerer')  || !item.startsWith('Wizard') || !item.startsWith('Bard') || !item.startsWith('Cleric') || !item.startsWith('Paladin') || !item.startsWith('Ranger') || !item.startsWith('Artificer') )
+       spellcastingClasses.sort((a, b) => a.split(' ')[1] - b.split(' ')[1])
+       console.log(spellcastingClasses)   })
 
      
       
@@ -234,17 +238,17 @@ addLevel = className => {
         characterSneakAttackLevel: this.state.characterSneakAttackLevel + 1,
       })
     }
-
-    //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
-    let spellcastingClasses = this.state.characterLevel.filter(item => {item.startsWith('Sorcerer') || item.startsWith('Wizard')} )
-
     } else {
       //path if this is the first level in the class you're adding
       newLevel = 1
       //adding class level to list of classes
       this.setState({
         characterLevel: this.state.characterLevel.concat([`${className} 1`]).sort()
-      })
+      }, () => {
+         //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
+        let spellcastingClasses = this.state.characterLevel.filter(item => !item.startsWith('Sorcerer')  || !item.startsWith('Wizard') || !item.startsWith('Bard') || !item.startsWith('Cleric') || !item.startsWith('Paladin') || !item.startsWith('Ranger') || !item.startsWith('Artificer') )
+        spellcastingClasses.sort((a, b) => a.split(' ')[1] - b.split(' ')[1])
+        console.log(spellcastingClasses)   })
 
 
 
@@ -289,6 +293,8 @@ addLevel = className => {
         characterSneakAttackLevel: this.state.characterSneakAttackLevel + 1,
       })
     }
+
+   
 
     }
     
