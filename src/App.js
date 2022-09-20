@@ -179,7 +179,12 @@ addLevel = className => {
         spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0] + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
        }
        spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
-       console.log(`spellcasting classes array`,spellcastingClasses)   })
+       console.log(`spellcasting classes array`,spellcastingClasses)  
+       this.setState({
+         characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
+       }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
+
+     })
 
      
       
@@ -258,8 +263,14 @@ addLevel = className => {
           spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0]  + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
          }
 
-         spellcastingClasses.sort((a, b) => a.split(' ')[1] - b.split(' ')[1])
-        console.log(`spellcasting classes array`,spellcastingClasses)   })
+        spellcastingClasses.sort((a, b) => a.split(' ')[1] - b.split(' ')[1])
+        console.log(`spellcasting classes array`,spellcastingClasses[0])
+
+        this.setState({
+          characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
+        }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
+
+      })
 
 
 
@@ -327,9 +338,9 @@ componentDidUpdate() {
       <button onClick={() => httpSend()}>Test HTTP</button>
       <img className="logo" src={logo} alt="Logo"></img>
       <p>{this.state.characterLevel.map(item => item = item.slice(0, 1).toUpperCase() + item.slice(1, item.length)).join(', ')}</p>
-      <p>Spellcasting Level {this.state.characterSpellcasterSlotLevel}</p>
-      <p>Highest Level Spell Slot {Math.round(this.state.characterSpellcasterSlotLevel / 2)}</p>
-      <p>Highest Level Spell Known {Math.round(this.state.characterSpellcasterKnownLevel / 2)}</p>
+      <p>Spellcasting Level {this.state.characterLevel.length > 1 ? this.state.characterSpellcasterSlotLevel : Math.ceil(this.state.characterSpellcasterSlotLevel)}</p>
+      <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 ? Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)}</p>
+      <p>Highest Level Spell Known {this.state.characterLevel.length > 1 ? Math.round(this.state.characterSpellcasterKnownLevel / 2) : Math.ceil(this.state.characterSpellcasterKnownLevel / 2)}</p>
       <p>Number of Attacks {this.state.characterAttacks}</p>
       <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p>
       </div>
