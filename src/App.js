@@ -565,16 +565,16 @@ if( className == 'druid'  || className === 'sorcerer' || className === 'wizard' 
 
 }
 
-adjustLevel = className => {
+adjustLevel = classParam => {
   
-  let currentLevel = this.state.characterLevel.find(item => item.startsWith(className))
+  let currentLevel = this.state.characterLevel.find(item => item.startsWith(classParam))
  
   if(currentLevel) {
   //find current level in class and increment
   currentLevel = parseInt(currentLevel.split(' ')[1]) + 1
-  let index = this.state.characterLevel.findIndex(item => item.startsWith(className))
+  let index = this.state.characterLevel.findIndex(item => item.startsWith(classParam))
   let newCharacterLevel = this.state.characterLevel
-  newCharacterLevel.splice(index, 1, `${className} ${currentLevel}`)
+  newCharacterLevel.splice(index, 1, `${classParam} ${currentLevel}`)
   //set value
   this.setState({
     characterLevel: newCharacterLevel
@@ -591,7 +591,7 @@ adjustLevel = className => {
   } else {
     //set value to level 1 in class
     this.setState({
-      characterLevel: this.state.characterLevel.concat([`${className} 1`])
+      characterLevel: this.state.characterLevel.concat([`${classParam} 1`])
     }, () => {
 
       let casterKnownLevel = 0
