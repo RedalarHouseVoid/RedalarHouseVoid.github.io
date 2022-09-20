@@ -171,18 +171,23 @@ addLevel = className => {
       this.setState({
         characterLevel: this.state.characterLevel.filter(item => !item.startsWith(`${className}`)).concat([`${className} ${newLevel}`]).sort()
       }, () => {
-        //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
-       let spellcastingClasses = this.state.characterLevel.filter(item =>  item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('paladin') || item.startsWith('ranger') || item.startsWith('artificer') )
+        if(className != 'fighter' && className != 'rogue' && className != 'barbarian' && className != 'monk') {
+  //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
+  let spellcastingClasses = this.state.characterLevel.filter(item =>  item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('paladin') || item.startsWith('ranger') || item.startsWith('artificer') )
        
-       for(let i = 0; i < spellcastingClasses.length; i++) {
-        if(spellcastingClasses[i].startsWith('paladin') || spellcastingClasses[i].startsWith('ranger') || spellcastingClasses[i].startsWith('artificer'))
-        spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0] + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
-       }
-       spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
-       console.log(`spellcasting classes array`,spellcastingClasses)  
-       this.setState({
-         characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
-       }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
+  for(let i = 0; i < spellcastingClasses.length; i++) {
+   if(spellcastingClasses[i].startsWith('paladin') || spellcastingClasses[i].startsWith('ranger') || spellcastingClasses[i].startsWith('artificer'))
+   spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0] + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
+  }
+  spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
+  console.log(`spellcasting classes array`,spellcastingClasses)  
+  this.setState({
+    characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
+  }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
+        }
+      
+
+      
 
      })
 
@@ -255,6 +260,7 @@ addLevel = className => {
       this.setState({
         characterLevel: this.state.characterLevel.concat([`${className} 1`]).sort()
       }, () => {
+        if(className != 'fighter' && className != 'rogue' && className != 'barbarian' && className != 'monk') {
          //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
         let spellcastingClasses = this.state.characterLevel.filter(item => item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('paladin') || item.startsWith('ranger') || item.startsWith('artificer') )
         
@@ -269,7 +275,7 @@ addLevel = className => {
         this.setState({
           characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
         }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
-
+      }
       })
 
 
@@ -349,7 +355,7 @@ componentDidUpdate() {
         
 <div className='right'> 
         
-        {Object.entries(this.state.characterClassFeatures).map((item, i) => { return <ClassFeatureList classData = {item}/>})}
+        {Object.entries(this.state.characterClassFeatures).map((item, i) => { return <ClassFeatureList key={i} classData = {item}/>})}
 </div>
       </div>
     );
@@ -362,7 +368,7 @@ class ClassFeatureList extends React.Component {
         <div> 
           <p>{this.props.classData[0].slice(0, 1).toUpperCase() +  this.props.classData[0].slice(1, this.props.classData[0].length)} Features</p> 
            <ul>
-           {this.props.classData[1].map((item) => { return <li>{item} </li>})}
+           {this.props.classData[1].map((item) => { return <li key={item}>{item} </li>})}
            </ul>
            
         </div> 
