@@ -28,3 +28,51 @@ div.right {
   grid-template-rows: 1fr 1fr;
 }
 
+div.classButtons {
+  height: 10px;
+}
+
+.classLevelerContainer {
+  display: grid;
+  grid-template-columns: 6% 11% 6%;
+  gap: 0px 0px;
+  height: 30px;
+  margin-bottom:px;
+}
+
+p.level-box {
+  border: 1px solid black;
+  height: 10px;
+}
+
+button.level-button-left {
+  height: 20px;
+  width: 25px;
+}
+
+button.level-button-right {
+  height: 20px;
+  width: 25px;
+}
+
+div.level-val {
+  margin-left: 10px;
+  width: 20px;
+  border: 1px solid black;
+  font-size: medium;
+  text-align: center;
+}
+
+div.level-class {
+  text-align: center;
+  width: 90px;
+}
+
+.classFeatures {
+  border: 2px solid rgb(255, 255, 255, .5);
+  border-radius: 6px;
+  height: 465px;
+  overflow: auto;
+
+  
+}

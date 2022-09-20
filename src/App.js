@@ -280,7 +280,7 @@ let classes = {
                   bard: {
                     'hitDice': 'd8',
                     level1: {'proficiencies': ['Light Armor', 'Hand Crossbows', 'Longswords', 'Rapiers', 'Shorts Swords'],
-                             'savingThrows': [`Intelligence`, `Wisdom`],
+                             'savingThrows': [`Dexterity`, `Charisma`],
                             'features': ['Full Spellcasting','Bardic Inspiration (d6)']},
                     level2: { 'features': ['Jack of All Trades', 'Song of Rest (d6)']},
                     level3: {'features': ['Bard College', 'Expertise']},
@@ -303,6 +303,33 @@ let classes = {
                     level20: { 'features': ['Superior Inspiration']},
                     
                     },
+                    druid: {
+                      'hitDice': 'd8',
+                      level1: {'proficiencies': ['Light Armor', 'Medium Armor', 'Clubs', 'Daggers', 'Darts', 'Javelins', 'Maces', 'Quarterstaffs', 'Scimitars', 'Sickles', 'Slings', 'Spears'],
+                               'savingThrows': [`Intelligence`, `Wisdom`],
+                              'features': ['Full Spellcasting','Druidic']},
+                      level2: { 'features': ['Wild Shape', 'Druid Circle']},
+                      level3: {'features': []},
+                      level4: { 'features': ['ASI', 'Wild Shape Improvement']},
+                      level5: { 'features': []},
+                      level6: { 'features': ['Druid Circle Feature']},
+                      level7: { 'features': []},
+                      level8: { 'features': ['Wild Shape Improvement','ASI']},
+                      level9: { 'features': []},
+                      level10: { 'features': ['Druid Circle Feature']},
+                      level11: { 'features': []},
+                      level12: { 'features': ['ASI']},
+                      level13: { 'features': []},
+                      level14: { 'features': ['Druid Circle Feature']},
+                      level15: { 'features': []},
+                      level16: { 'features': ['ASI']},
+                      level17: { 'features': []},
+                      level18: { 'features': ['Timeless Body', 'Beast Spells']},
+                      level19: { 'features': ['ASI']},
+                      level20: { 'features': ['Archdruid']},
+                      
+                      },
+                    
                     artificer: {
                       'hitDice': 'd8',
                       level1: {'proficiencies': ['Light Armor', 'Medium Armor', 'Shields', 'Simple Weapons'],
@@ -357,7 +384,7 @@ addLevel = className => {
       }, () => {
         if(className != 'fighter' && className != 'rogue' && className != 'barbarian' && className != 'monk') {
   //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
-  let spellcastingClasses = this.state.characterLevel.filter(item =>  item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('paladin') || item.startsWith('ranger') || item.startsWith('artificer') )
+  let spellcastingClasses = this.state.characterLevel.filter(item =>  item.startsWith('druid')  || item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('paladin') || item.startsWith('ranger') || item.startsWith('artificer') )
        
   for(let i = 0; i < spellcastingClasses.length; i++) {
    if(spellcastingClasses[i].startsWith('paladin') || spellcastingClasses[i].startsWith('ranger') || spellcastingClasses[i].startsWith('artificer'))
@@ -376,14 +403,39 @@ addLevel = className => {
   }
  
         }
+   })
+
+       //Spell Slot Level Handler
+       if( className.startsWith('druid')  ||className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric') {
+        if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
+          this.setState({
+            characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
+          }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
+        } else {
+          this.setState({
+            characterSpellcasterSlotLevel: 17
+          }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
+        }
+      
+      } else if((className === 'paladin' || className === 'ranger') && newLevel == 2) {
+        this.setState({
+          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
+        }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
+
+
+      } else if( className === 'paladin' || className === 'ranger' || className === 'artificer') {
+        if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
+          this.setState({
+            characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + .5
+          }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
+        }
+       
+      }
       
 
-      
 
-     })
 
-     
-      
+
     //adding features of new class to full feature list
     let newClassFeatures = {}
 
@@ -401,30 +453,7 @@ addLevel = className => {
 
 
 
-      //Spell Slot Level Handler
-     if(className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric') {
-      if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
-        this.setState({
-          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
-        })
-      } else {
-        this.setState({
-          characterSpellcasterSlotLevel: 17
-        })
-      }
     
-    }  else if( className === 'paladin' || className === 'ranger' || className === 'artificer') {
-      if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
-        this.setState({
-          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + .5
-        })
-      } else {
-        this.setState({
-          characterSpellcasterSlotLevel: 17
-        })
-      }
-     
-    }
 
     
 
@@ -464,12 +493,12 @@ addLevel = className => {
       this.setState({
         characterLevel: this.state.characterLevel.concat([`${className} 1`]).sort()
       }, () => {
-        if(className != 'fighter' && className != 'rogue' && className != 'barbarian' && className != 'monk') {
+        if( className == 'druid'  ||className == 'wizard' || className == 'cleric' || className == 'bard' || className == 'sorcerer' || className == 'artificer') {
          //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
-        let spellcastingClasses = this.state.characterLevel.filter(item => item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('paladin') || item.startsWith('ranger') || item.startsWith('artificer') )
+        let spellcastingClasses = this.state.characterLevel.filter(item => item.startsWith('druid')  || item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('artificer') )
         
         for(let i = 0; i < spellcastingClasses.length; i++) {
-          if(spellcastingClasses[i].startsWith('paladin') || spellcastingClasses[i].startsWith('ranger') || spellcastingClasses[i].startsWith('artificer'))
+          if(spellcastingClasses[i].startsWith('artificer'))
           spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0]  + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
          }
 
@@ -482,6 +511,12 @@ addLevel = className => {
       }
       })
 
+//Spell Slot Level Handler
+if( className == 'druid'  || className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric' || className === 'artificer') {
+  this.setState({
+    characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
+  }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
+}
 
 
     //adding features of new class to full feature list
@@ -501,16 +536,7 @@ addLevel = className => {
 
      
 
-     //Spell Slot Level Handler
-      if(className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric') {
-        this.setState({
-          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
-        })
-      } else if(className === 'paladin' || className === 'ranger' || className === 'artificer') {
-        this.setState({
-          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + .5
-        })
-      }
+     
 
 
        //Sneak Attack Handler
@@ -541,24 +567,15 @@ componentDidUpdate() {
     return (
       <div className='App-header'>
       <div className='left'>
-      <button onClick={() => this.addLevel('wizard')}>Add Wizard Level</button>
-      <button onClick={() => this.addLevel('cleric')}>Add Cleric Level</button>
-      <button onClick={() => this.addLevel('bard')}>Add Bard Level</button>
-      <button onClick={() => this.addLevel('sorcerer')}>Add Sorcerer Level</button>
-      <button onClick={() => this.addLevel('artificer')}>Add Artificer Level</button>
-      <button onClick={() => this.addLevel('paladin')}>Add Paladin Level</button>
-      <button onClick={() => this.addLevel('ranger')}>Add Ranger Level</button>
-      <button onClick={() => this.addLevel('rogue')}>Add Rogue Level</button>
-      <button onClick={() => this.addLevel('fighter')}>Add Fighter Level</button>
-      <button onClick={() => this.addLevel('barbarian')}>Add Barbarian Level</button>
-      <button onClick={() => this.addLevel('monk')}>Add Monk Level</button>
-    
+      <div className='classButtons'>
+      {Object.entries(classes).map((item, i) => { return <ClassLeveler key={i} className = {item[0]} addLevel={this.addLevel}/>})}
+
+      </div>
   
-      <button onClick={() => httpSend()}>Test HTTP</button>
-      <img className="logo" src={logo} alt="Logo"></img>
+     
       <p>{this.state.characterLevel.map(item => item = item.slice(0, 1).toUpperCase() + item.slice(1, item.length)).join(', ')}</p>
-      {Math.round(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Slot {Math.round(this.state.characterSpellcasterSlotLevel / 2)}</p> : <p></p>} 
-      {Math.round(this.state.characterSpellcasterKnownLevel / 2) > 0 ? <p>Highest Level Spell Known {Math.round(this.state.characterSpellcasterKnownLevel / 2)}</p> : <p></p>}
+      {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
+      {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Known {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
       {this.state.characterAttacks > 1 ? <p>Number of Attacks {this.state.characterAttacks}</p> : <p></p>}
       {Math.round(this.state.characterSneakAttackLevel / 2) > 0 ? <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p> : <p></p>}
      
@@ -578,12 +595,25 @@ componentDidUpdate() {
 class ClassFeatureList extends React.Component { 
   render() { 
      return ( 
-        <div> 
+        <div className='classFeatures'> 
           <p>{this.props.classData[0].slice(0, 1).toUpperCase() +  this.props.classData[0].slice(1, this.props.classData[0].length)} Features</p> 
+          <div className='featureList'> 
            <ul>
            {this.props.classData[1].map((item) => { return <li key={item}>{item} </li>})}
            </ul>
-           
+           </div> 
+        </div> 
+     ); 
+  }
+} 
+class ClassLeveler extends React.Component { 
+  render() { 
+     return ( 
+        <div className='classLevelerContainer'> 
+          <button className='level-button-left'>-</button>
+          <div className="level-val">1</div>
+          <button className='level-button-right' onClick={() => this.props.addLevel(this.props.className)}>+</button>
+          <div className='level-class'>{this.props.className}</div>
         </div> 
      ); 
   }
