@@ -381,189 +381,7 @@ class App extends React.Component {
                   characterSneakAttackLevel: 0,
                   characterAttacks: 1,                              };
   }
-addLevel = className => {
-  
-    let lastLevel = this.state.characterLevel.reverse().find(item => item.includes(`${className}`) )
-    let newLevel
-    if(lastLevel) {  
-       //path if this is not the first level in the class you're adding
-      newLevel = parseInt(lastLevel.split('').filter(item => item.toLowerCase() === item.toUpperCase()).join('')) + 1
-      
-      //adding class level to list of classes, also using the callback here to ensure we have an updated characterLevel for spells known calculation
-      this.setState({
-        characterLevel: this.state.characterLevel.filter(item => !item.startsWith(`${className}`)).concat([`${className} ${newLevel}`]).sort()
-      }, () => {
-        if(className != 'fighter' && className != 'rogue' && className != 'barbarian' && className != 'monk') {
-  //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
-  let spellcastingClasses = this.state.characterLevel.filter(item =>  item.startsWith('druid')  || item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('paladin') || item.startsWith('ranger') || item.startsWith('artificer') )
-       
-  for(let i = 0; i < spellcastingClasses.length; i++) {
-   if(spellcastingClasses[i].startsWith('paladin') || spellcastingClasses[i].startsWith('ranger') || spellcastingClasses[i].startsWith('artificer'))
-   spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0] + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
-  }
-  spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
-  console.log(`spellcasting classes array`,spellcastingClasses)  
-  if(spellcastingClasses[0].split(' ')[1] <= 17) {
-    this.setState({
-      characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
-    }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
-  } else {
-    this.setState({
-      characterSpellcasterKnownLevel: 17
-    }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
-  }
- 
-        }
-   })
 
-       //Spell Slot Level Handler
-       if( className.startsWith('druid')  ||className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric') {
-        if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
-          this.setState({
-            characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
-          }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
-        } else {
-          this.setState({
-            characterSpellcasterSlotLevel: 17
-          }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
-        }
-      
-      } else if((className === 'paladin' || className === 'ranger') && newLevel == 2) {
-        this.setState({
-          characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
-        }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
-
-
-      } else if( className === 'paladin' || className === 'ranger' || className === 'artificer') {
-        if(this.state.characterSpellcasterSlotLevel + 1 <= 17) {
-          this.setState({
-            characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + .5
-          }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
-        }
-       
-      }
-      
-
-
-
-
-    //adding features of new class to full feature list
-    let newClassFeatures = {}
-
-    Object.assign(newClassFeatures, this.state.characterClassFeatures)
-
-    if(`${className}` in newClassFeatures) {
-      newClassFeatures[`${className}`] = newClassFeatures[`${className}`].concat(classes[`${className}`][`level${newLevel}`].features)
-    } else {
-      newClassFeatures[`${className}`] = classes[`${className}`][`level${newLevel}`].features
-    }
-   
-    this.setState({
-   characterClassFeatures: newClassFeatures
-     })
-
-
-
-    
-
-    
-
-    //Extra Attack Handler
-    if(className === 'fighter' && newLevel === 20 )  {
-      this.setState({
-        characterAttacks: 4,
-      })
-
-
-    } else if(className === 'fighter' && newLevel === 11 ) {
-      this.setState({
-        characterAttacks: 3,
-      
-      })
-
-
-    } else if((className === 'paladin' || className === 'fighter' || className === 'ranger' || className === 'barbarian' || className === 'monk') && newLevel === 5 && this.state.characterAttacks === 1) {
-      this.setState({
-        characterAttacks: 2,
-      
-      })
-
-
-    }
-
-    //Sneak Attack Handler
-    if(className === 'rogue')  {
-      this.setState({
-        characterSneakAttackLevel: this.state.characterSneakAttackLevel + 1,
-      })
-    }
-    } else {
-      //path if this is the first level in the class you're adding
-      newLevel = 1
-      //adding class level to list of classes
-      this.setState({
-        characterLevel: this.state.characterLevel.concat([`${className} 1`]).sort()
-      }, () => {
-        if( className == 'druid'  ||className == 'wizard' || className == 'cleric' || className == 'bard' || className == 'sorcerer' || className == 'artificer') {
-         //Spell Known Level Handler. get all spellcasting classes, then sort. make sure to count half casters as half
-        let spellcastingClasses = this.state.characterLevel.filter(item => item.startsWith('druid')  || item.startsWith('sorcerer')  || item.startsWith('wizard') || item.startsWith('bard') || item.startsWith('cleric') || item.startsWith('artificer') )
-        
-        for(let i = 0; i < spellcastingClasses.length; i++) {
-          if(spellcastingClasses[i].startsWith('artificer'))
-          spellcastingClasses[i] = spellcastingClasses[i].split(' ')[0]  + ' ' + (spellcastingClasses[i].split(' ')[1] / 2)
-         }
-
-        spellcastingClasses.sort((a, b) => b.split(' ')[1] - a.split(' ')[1])
-        console.log(`spellcasting classes array`,spellcastingClasses)
-
-        this.setState({
-          characterSpellcasterKnownLevel: spellcastingClasses[0].split(' ')[1]
-        }, () => {console.log(`spell known level`,this.state.characterSpellcasterKnownLevel)})
-      }
-      })
-
-//Spell Slot Level Handler
-if( className == 'druid'  || className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric' || className === 'artificer') {
-  this.setState({
-    characterSpellcasterSlotLevel: this.state.characterSpellcasterSlotLevel + 1
-  }, () => {console.log(`spell slot level`,this.state.characterSpellcasterSlotLevel)})
-}
-
-
-    //adding features of new class to full feature list
-    let newClassFeatures = {}
-    
-    Object.assign(newClassFeatures, this.state.characterClassFeatures)
-
-    if(`${className}` in newClassFeatures) {
-      newClassFeatures[`${className}`] = newClassFeatures[`${className}`].concat(classes[`${className}`][`level${newLevel}`].features)
-    } else {
-      newClassFeatures[`${className}`] = classes[`${className}`][`level${newLevel}`].features
-    }
-   
-   this.setState({
-    characterClassFeatures: newClassFeatures
-     })
-
-     
-
-     
-
-
-       //Sneak Attack Handler
-      if(className === 'rogue')  {
-      this.setState({
-        characterSneakAttackLevel: this.state.characterSneakAttackLevel + 1,
-      })
-    }
-
-   
-
-    }
-    
-              
-
-}
 
 levelChange = () => {
   let spellcasterKnownLevel = 0
@@ -578,20 +396,60 @@ levelChange = () => {
     for(let className of this.state.characterLevel) {
       let currentClass = className.split(' ')[0]
       let currentClassLevel = parseInt(className.split(' ')[1])
+      if(spellcastingValue(currentClass) == 'full caster' || (spellcastingValue(currentClass) == 'artificer' && currentClassLevel === 1)) {
+        
+        if(currentClassLevel <= 17) {
+          spellcasterKnownLevel += currentClassLevel
+          spellcasterSlotLevel += currentClassLevel
+        } else {
+          spellcasterKnownLevel = 17
+          spellcasterSlotLevel = 17
+        }
+      } else if(spellcastingValue(currentClass) == 'half caster' || spellcastingValue(currentClass) == 'artificer') {
+       
+        spellcasterKnownLevel += currentClassLevel * .5
+        spellcasterSlotLevel +=  currentClassLevel * .5
+      }
+      this.setState({
+        characterSpellcasterKnownLevel: spellcasterKnownLevel,
+        characterSpellcasterSlotLevel: spellcasterSlotLevel,
       
-   
-  
-      //spells handler. with allowances for artificer weirdness. also accounts for multiclassing
-  
-     
-  
-  
+      })
+
+     //Extra Attack Handler
+     if((currentClass === 'paladin' || currentClass === 'fighter' || currentClass === 'ranger' || currentClass === 'barbarian' || currentClass === 'monk') && currentClassLevel === 5 && this.state.characterAttacks === 1) {
+      this.setState({
+        characterAttacks: 2,
       
-  
+      })
+
+    }  else if(currentClass === 'fighter' && currentClassLevel === 11 ) {
+      this.setState({
+        characterAttacks: 3,
+      
+      })
+
+
+    } else if(currentClass === 'fighter' && currentClassLevel === 20 )  {
+      this.setState({
+        characterAttacks: 4,
+      })
+
+
     }
 
+    //Sneak Attack Handler
+    if(currentClass  === 'rogue')  {
+      
+      this.setState({
+        characterSneakAttackLevel: currentClassLevel,
+      })
+    }
+  
+     }
 
-    } else {
+
+    } else  if(this.state.characterLevel.length == 1){
       let className = this.state.characterLevel[0]
       let currentClass = className.split(' ')[0]
       let currentClassLevel = parseInt(className.split(' ')[1])
@@ -599,6 +457,8 @@ levelChange = () => {
    
       //single classed character
       console.log(`using single class calc`)
+
+      //spells
       if(spellcastingValue(currentClass) == 'full caster' || (spellcastingValue(currentClass) == 'artificer' && currentClassLevel === 1)) {
         
         if(currentClassLevel <= 17) {
@@ -618,6 +478,40 @@ levelChange = () => {
         characterSpellcasterSlotLevel: spellcasterSlotLevel,
       
       })
+
+     //Extra Attack Handler
+    if(currentClass === 'fighter' && currentClassLevel === 20 )  {
+      this.setState({
+        characterAttacks: 4,
+      })
+
+
+    } else if(currentClass === 'fighter' && currentClassLevel === 11 ) {
+      this.setState({
+        characterAttacks: 3,
+      
+      })
+
+
+    } else if((currentClass === 'paladin' || currentClass === 'fighter' || currentClass === 'ranger' || currentClass === 'barbarian' || currentClass === 'monk') && currentClassLevel === 5 && this.state.characterAttacks === 1) {
+      this.setState({
+        characterAttacks: 2,
+      
+      })
+
+
+    }
+
+    //Sneak Attack Handler
+    if(currentClass  === 'rogue')  {
+      console.log( Math.ceil(currentClassLevel / 2))
+      this.setState({
+        characterSneakAttackLevel: currentClassLevel,
+      })
+    }
+
+
+
     }
  
   
