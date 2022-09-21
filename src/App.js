@@ -565,65 +565,119 @@ if( className == 'druid'  || className === 'sorcerer' || className === 'wizard' 
 
 }
 
-adjustLevel = classParam => {
-  
-  let currentLevel = this.state.characterLevel.find(item => item.startsWith(classParam))
- 
-  if(currentLevel) {
-  //find current level in class and increment
-  currentLevel = parseInt(currentLevel.split(' ')[1]) + 1
-  let index = this.state.characterLevel.findIndex(item => item.startsWith(classParam))
-  let newCharacterLevel = this.state.characterLevel
-  newCharacterLevel.splice(index, 1, `${classParam} ${currentLevel}`)
-  //set value
-  this.setState({
-    characterLevel: newCharacterLevel
-  }, () => {
+levelChange = () => {
+  let spellcasterKnownLevel = 0
+  let spellcasterSlotLevel = 0
+  let attacks = 1
+  let sneakAttack = 0
 
-  
+
+  if(this.state.characterLevel.length > 1) {
+    //multiclassed character
+
     for(let className of this.state.characterLevel) {
-      console.log(`handler run on`, className)
-      console.log(`spellcaster status of ${className}`, spellcastingValue(className))
-    }
+      let currentClass = className.split(' ')[0]
+      let currentClassLevel = parseInt(className.split(' ')[1])
       
-  })
+   
   
-  } else {
-    //set value to level 1 in class
-    this.setState({
-      characterLevel: this.state.characterLevel.concat([`${classParam} 1`])
-    }, () => {
-
-      let casterKnownLevel = 0
-      let casterSlotLevel = 0
-      for(let className of this.state.characterLevel) {
-        console.log(`handler run on`, className)
-        console.log(`spellcaster status of ${className}`, spellcastingValue(className))
-        //spells handler. with allowances for artificer weirdness
-        if(spellcastingValue(className) == 'full caster' || spellcastingValue(className) == 'artificer') {
-          casterKnownLevel += 1
-          casterSlotLevel += 1
-        } else if(spellcastingValue(className) == 'half caster') {
-          casterKnownLevel += .5
-          casterSlotLevel += .5
-        }
-        
-      }
-      console.log(`effective known level`, casterKnownLevel)
-      console.log(`effective slot level`, casterSlotLevel)
+      //spells handler. with allowances for artificer weirdness. also accounts for multiclassing
+  
      
+  
+  
+      
+  
+    }
 
-    })
-  }
-  
+
+    } else {
+      let className = this.state.characterLevel[0]
+      let currentClass = className.split(' ')[0]
+      let currentClassLevel = parseInt(className.split(' ')[1])
+      
+   
+      //single classed character
+      console.log(`using single class calc`)
+      if(spellcastingValue(currentClass) == 'full caster' || (spellcastingValue(currentClass) == 'artificer' && currentClassLevel === 1)) {
+        
+        if(currentClassLevel <= 17) {
+          spellcasterKnownLevel = currentClassLevel
+          spellcasterSlotLevel = currentClassLevel
+        } else {
+          spellcasterKnownLevel = 17
+          spellcasterSlotLevel = 17
+        }
+      } else if(spellcastingValue(currentClass) == 'half caster' || spellcastingValue(currentClass) == 'artificer') {
+       
+        spellcasterKnownLevel = currentClassLevel * .5
+        spellcasterSlotLevel =  currentClassLevel * .5
+      }
+      this.setState({
+        characterSpellcasterKnownLevel: spellcasterKnownLevel,
+        characterSpellcasterSlotLevel: spellcasterSlotLevel,
+      
+      })
+    }
  
   
   }
+
+  levelUp = classParam => {
+    let currentLevel = this.state.characterLevel.find(item => item.startsWith(classParam))
+ 
+    if(currentLevel) {
+    //find current level in class and increment
+    currentLevel = parseInt(currentLevel.split(' ')[1]) + 1
+    let index = this.state.characterLevel.findIndex(item => item.startsWith(classParam))
+    let newCharacterLevel = this.state.characterLevel
+    newCharacterLevel.splice(index, 1, `${classParam} ${currentLevel}`)
+    //set value
+    this.setState({
+      characterLevel: newCharacterLevel
+    }, () => {
+      this.levelChange()                                   
+  } )
+    
+    } else {
+      //set value to level 1 in class
+      this.setState({
+        characterLevel: this.state.characterLevel.concat([`${classParam} 1`])
+      }, () => {
+        this.levelChange()                                   
+    } )
+    }
+  }
+  levelDown = classParam => {
+    let currentLevel = this.state.characterLevel.find(item => item.startsWith(classParam))
+ 
+    if(currentLevel) {
+    //find current level in class and increment
+    currentLevel = parseInt(currentLevel.split(' ')[1]) - 1
+    let index = this.state.characterLevel.findIndex(item => item.startsWith(classParam))
+    let newCharacterLevel = this.state.characterLevel
+    if(currentLevel === 0) {
+     
+      newCharacterLevel.splice(index, 1)
+    } else {
+      newCharacterLevel.splice(index, 1, `${classParam} ${currentLevel}`)
+    }
+    
+    //set value
+    this.setState({
+      characterLevel: newCharacterLevel
+    }, () => {
+      console.log(`new characterLevel`, this.state.characterLevel)
+      this.levelChange()                                   
+  } )
+    
+    } 
+  }
+
+
+
 componentDidUpdate() {
-  console.log(this.state)
- 
- 
-  
+  console.log(this.state) 
 }
 
 
@@ -634,16 +688,16 @@ componentDidUpdate() {
       <div className='App-header'>
       <div className='left'>
       <div className='classButtons'>
-      {Object.entries(classes).sort().map((item, i) => { return <ClassLeveler key={i} className = {item[0]} addLevel={this.adjustLevel} state={this.state}/>})}
+      {Object.entries(classes).sort().map((item, i) => { return <ClassLeveler key={i} className = {item[0]} levelUp={this.levelUp}  levelDown={this.levelDown} />})}
 
       </div>
   
-      <p>{this.state.characterLevel.map(item => item = item.slice(0, 1).toUpperCase() + item.slice(1, item.length)).join(', ')}</p>
+      <div className='importantFeatures'> 
       {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
       {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Known {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
       {this.state.characterAttacks > 1 ? <p>Number of Attacks {this.state.characterAttacks}</p> : <p></p>}
       {Math.round(this.state.characterSneakAttackLevel / 2) > 0 ? <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p> : <p></p>}
-     
+      </div>
      
       </div>
      
@@ -673,13 +727,35 @@ class ClassFeatureList extends React.Component {
   }
 } 
 class ClassLeveler extends React.Component { 
+  constructor(props) {
+    super(props);
+    this.state = {className : this.props.className,
+                  classLevel : 0
+                  
+    };
+  }
+
   render() { 
      return ( 
       <div className='level'>
         <div className='classLevelerContainer'> 
-          <div className='level-button-left'>-</div>
-          <div className="level-val">1</div>
-          <div className='level-button-right' onClick={() => this.props.addLevel(this.props.className)}>+</div>
+          <div className='level-button-left' onClick={() => {
+            this.props.levelDown(this.props.className)
+            if(this.state.classLevel > 0) {
+              this.setState({classLevel: this.state.classLevel - 1})
+            }
+          
+           
+            }}>-</div>
+          <div className="level-val">{this.state.classLevel}</div>
+         
+          <div className='level-button-right' onClick={() => {
+            this.props.levelUp(this.props.className)
+            
+              this.setState({classLevel: this.state.classLevel + 1})
+            
+            }
+            }>+</div>
           <div className='level-class'>{this.props.className}</div>
         </div> 
       </div>
