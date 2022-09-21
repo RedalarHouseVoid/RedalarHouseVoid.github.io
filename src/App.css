@@ -18,6 +18,8 @@
 div.left {
   float: left;
   width: 50%;
+  display: grid;
+  grid-template-columns: 20% 80%;
 }
 
 div.right {
