@@ -362,7 +362,7 @@ let classes = {
 function spellcastingValue (className) {
   if(className  === 'druid'  ||className === 'sorcerer' || className === 'wizard' || className === 'bard' || className === 'cleric') {
     return 'full caster'
-  } else if (className  == 'druid'  ||className === 'sorcerer') {
+  } else if (className  == 'paladin'  ||className === 'ranger') {
     return 'half caster'
   } else if(className == 'artificer') {
     return 'artificer'
@@ -384,16 +384,18 @@ class App extends React.Component {
 
 
 levelChange = () => {
-  let spellcasterKnownLevel = 0
+  let spellcasterKnownLevelArr = []
+
   let spellcasterSlotLevel = 0
   let attacks = 1
   let sneakAttack = 0
-
+  let classFeatures = {}
 
   if(this.state.characterLevel.length > 1) {
     //multiclassed character
-
-    for(let className of this.state.characterLevel) {
+  
+    for(let className of this.state.characterLevel.sort((a, b) => parseInt(a.split(' ')[1]) - parseInt(b.split(' ')[1]) )) {
+      let spellcasterKnownLevel = 0
       let currentClass = className.split(' ')[0]
       let currentClassLevel = parseInt(className.split(' ')[1])
       if(spellcastingValue(currentClass) == 'full caster' || (spellcastingValue(currentClass) == 'artificer' && currentClassLevel === 1)) {
@@ -411,19 +413,18 @@ levelChange = () => {
         spellcasterSlotLevel +=  currentClassLevel * .5
       }
       this.setState({
-        characterSpellcasterKnownLevel: spellcasterKnownLevel,
         characterSpellcasterSlotLevel: spellcasterSlotLevel,
       
       })
 
      //Extra Attack Handler
-     if((currentClass === 'paladin' || currentClass === 'fighter' || currentClass === 'ranger' || currentClass === 'barbarian' || currentClass === 'monk') && currentClassLevel === 5 && this.state.characterAttacks === 1) {
+     if((currentClass === 'paladin' || currentClass === 'fighter' || currentClass === 'ranger' || currentClass === 'barbarian' || currentClass === 'monk') && currentClassLevel >= 5 && currentClassLevel < 11) {
       this.setState({
         characterAttacks: 2,
       
       })
 
-    }  else if(currentClass === 'fighter' && currentClassLevel === 11 ) {
+    }  else if(currentClass === 'fighter' && currentClassLevel >= 11 && currentClassLevel < 20 ) {
       this.setState({
         characterAttacks: 3,
       
@@ -436,6 +437,10 @@ levelChange = () => {
       })
 
 
+    } else {
+      this.setState({
+        characterAttacks: 1,
+      })
     }
 
     //Sneak Attack Handler
@@ -445,18 +450,32 @@ levelChange = () => {
         characterSneakAttackLevel: currentClassLevel,
       })
     }
-  
-     }
 
+     //features handler
+     
+     classFeatures[`${currentClass}`] = Object.entries(classes[currentClass]).slice(1, currentClassLevel + 1).map(item => item = item[1].features)
+     this.setState({
+       characterClassFeatures: classFeatures
+     
+     })
+     spellcasterKnownLevelArr.push(spellcasterKnownLevel)
+     console.log(currentClass, spellcasterKnownLevel)
+     console.log(`current multiclass spell known array`, spellcasterKnownLevelArr)
+     }
+    
+     this.setState({
+      characterSpellcasterKnownLevel: spellcasterKnownLevelArr.sort((a,b) => b-a)[0]
+    })
 
     } else  if(this.state.characterLevel.length == 1){
       let className = this.state.characterLevel[0]
       let currentClass = className.split(' ')[0]
       let currentClassLevel = parseInt(className.split(' ')[1])
+      let spellcasterKnownLevel = 0
       
    
       //single classed character
-      console.log(`using single class calc`)
+      
 
       //spells
       if(spellcastingValue(currentClass) == 'full caster' || (spellcastingValue(currentClass) == 'artificer' && currentClassLevel === 1)) {
@@ -472,6 +491,9 @@ levelChange = () => {
        
         spellcasterKnownLevel = currentClassLevel * .5
         spellcasterSlotLevel =  currentClassLevel * .5
+      } else {
+        spellcasterKnownLevel = 0
+        spellcasterSlotLevel =  0
       }
       this.setState({
         characterSpellcasterKnownLevel: spellcasterKnownLevel,
@@ -480,38 +502,61 @@ levelChange = () => {
       })
 
      //Extra Attack Handler
-    if(currentClass === 'fighter' && currentClassLevel === 20 )  {
+     if(currentClass === 'fighter' && currentClassLevel === 20 )  {
       this.setState({
         characterAttacks: 4,
       })
 
 
-    } else if(currentClass === 'fighter' && currentClassLevel === 11 ) {
+    } else if(currentClass === 'fighter' && currentClassLevel >= 11 ) {
       this.setState({
         characterAttacks: 3,
       
       })
 
 
-    } else if((currentClass === 'paladin' || currentClass === 'fighter' || currentClass === 'ranger' || currentClass === 'barbarian' || currentClass === 'monk') && currentClassLevel === 5 && this.state.characterAttacks === 1) {
+    } else if((currentClass === 'paladin' || currentClass === 'fighter' || currentClass === 'ranger' || currentClass === 'barbarian' || currentClass === 'monk') && currentClassLevel >= 5) {
       this.setState({
         characterAttacks: 2,
       
       })
 
 
+    } else {
+      this.setState({
+        characterAttacks: 1,
+      
+      })
     }
 
     //Sneak Attack Handler
     if(currentClass  === 'rogue')  {
-      console.log( Math.ceil(currentClassLevel / 2))
+   
       this.setState({
         characterSneakAttackLevel: currentClassLevel,
       })
     }
 
+    //features handler
+    let classFeatures = {}
+    classFeatures[`${currentClass}`] = Object.entries(classes[currentClass]).slice(1, currentClassLevel + 1).map(item => item = item[1].features)
+  
+    this.setState({
+      characterClassFeatures: classFeatures
+    
+    })
+    
 
 
+
+    } else {
+      this.setState({characterLevel: [],
+        characterClassFeatures: {},
+        characterSubclassFeatures: {},
+        characterSpellcasterSlotLevel: 0,
+        characterSpellcasterKnownLevel: 0,
+        characterSneakAttackLevel: 0,
+        characterAttacks: 1,                              })
     }
  
   
@@ -561,7 +606,7 @@ levelChange = () => {
     this.setState({
       characterLevel: newCharacterLevel
     }, () => {
-      console.log(`new characterLevel`, this.state.characterLevel)
+      
       this.levelChange()                                   
   } )
     
@@ -589,7 +634,7 @@ componentDidUpdate() {
       <div className='importantFeatures'> 
       {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
       {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Known {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
-      {this.state.characterAttacks > 1 ? <p>Number of Attacks {this.state.characterAttacks}</p> : <p></p>}
+      {this.state.characterLevel.some(item => spellcastingValue(item) == 'half caster' || spellcastingValue(item) == 'zero caster') ? <p>Number of Attacks {this.state.characterAttacks}</p> : <p></p>}
       {Math.round(this.state.characterSneakAttackLevel / 2) > 0 ? <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p> : <p></p>}
       </div>
      
@@ -598,8 +643,8 @@ componentDidUpdate() {
        
         
 <div className='right'> 
-        
-        {Object.entries(this.state.characterClassFeatures).map((item, i) => { return <ClassFeatureList key={i} classData = {item}/>})}
+    
+         {Object.entries(this.state.characterClassFeatures).map((item, i) => { return <ClassFeatureList key={i} classData = {item}/>})} 
 </div>
       </div>
     );
@@ -610,10 +655,11 @@ class ClassFeatureList extends React.Component {
   render() { 
      return ( 
         <div className='classFeatures'> 
+    
           <p>{this.props.classData[0].slice(0, 1).toUpperCase() +  this.props.classData[0].slice(1, this.props.classData[0].length)} Features</p> 
           <div className='featureList'> 
            <ul>
-           {this.props.classData[1].map((item) => { return <li key={item}>{item} </li>})}
+           {this.props.classData[1].flat().map((item) => { return <li key={item}>{item} </li>})}
            </ul>
            </div> 
         </div> 
