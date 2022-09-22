@@ -623,7 +623,6 @@ levelChange = () => {
   render() {
     return (
       <div className='App-header'>
-      <button onClick={() => console.log( Object.entries(this.state).forEach(item => console.log(`${item[0]} ${item[1]}`)))   }>log state</button>
       <div className='left'>
       <div className="classGrid">
       {Object.entries(classes).sort().map((item, i) => { return <ClassLeveler key={i} className = {item[0]} levelUp={this.levelUp}  levelDown={this.levelDown} />})}
