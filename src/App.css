@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 
@@ -19,7 +20,7 @@ div.left {
   float: left;
   width: 35%;
   display: grid;
-  grid-template-columns: 40% 80%;
+  grid-template-columns: 44% 80%;
   font-size: 1em;
 }
 
@@ -38,6 +39,7 @@ div.right {
   height: 425px;
   overflow: auto;
   text-align: center;
+  color: rgb(218, 208, 153)
 
   
 }
@@ -116,15 +118,81 @@ div.level-class {
 }
 ::-webkit-scrollbar-track {
   background: #282c34;
-  box-shadow: inset 0 0 5px grey;
+  box-shadow: inset 0 0 5px rgb(156, 142, 62);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #ffffff;
+  background: rgb(235, 219, 130);
   box-shadow: inset 0 0 3px grey;
   border-radius: 5px;
 }
 
 .importantFeatures {
+  color: rgb(218, 208, 153)
+}
+
+.v-counter {
+  border-radius: 40px;
+ max-height: 80px;
+  overflow: auto;
+  padding: 0px 4px;
+  border: 3px solid #966b1b;
+  margin: 10px;
  
+}
+
+.v-counter input[type=button]:hover {
+  color: #a47e36;
+  font-weight: bold;
+  background-color: transparent;
+}
+.v-counter span {
+  border: 2px solid #a47e36;
+  font-size: 13px;
+  color: #a47e36;
+  font-family: 'Open Sans';
+}
+.v-counter input[type=button], input[type=text] {
+  display: inline-block;
+  width: 20px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  padding: 0px;
+  color: #a47e36;
+  height: 33px;
+  font-family: 'Open Sans';
+}
+
+input.minusBtn{
+  margin-left: 13px;
+  margin-top: 10px;
+  margin-right: 2px;
+  font-size: 30px;
+}
+
+input.plusBtn{
+  margin-left: 2px;
+  font-size: 30px;
+}
+
+input.count {
+  color: #e7bf0f;
+  border: 2px solid #a47e36;
+  width: 40px;
+  font-size: 30px;
+}
+
+.label{
+  font-size: medium;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 10px;
+}
+.classGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows:  repeat(6, 110px);
 }

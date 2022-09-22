@@ -413,7 +413,7 @@ levelChange = () => {
         spellcasterSlotLevel +=  currentClassLevel * .5
       }
       this.setState({
-        characterSpellcasterSlotLevel: spellcasterSlotLevel,
+        characterSpellcasterSlotLevel: Math.floor(spellcasterSlotLevel),
       
       })
 
@@ -487,7 +487,7 @@ levelChange = () => {
           spellcasterKnownLevel = 17
           spellcasterSlotLevel = 17
         }
-      } else if(spellcastingValue(currentClass) == 'half caster' || spellcastingValue(currentClass) == 'artificer') {
+      } else if((spellcastingValue(currentClass) == 'half caster' || spellcastingValue(currentClass) == 'artificer') && currentClassLevel > 1 ) {
        
         spellcasterKnownLevel = currentClassLevel * .5
         spellcasterSlotLevel =  currentClassLevel * .5
@@ -615,9 +615,7 @@ levelChange = () => {
 
 
 
-componentDidUpdate() {
-  console.log(this.state) 
-}
+
 
 
 
@@ -625,15 +623,17 @@ componentDidUpdate() {
   render() {
     return (
       <div className='App-header'>
+      <button onClick={() => console.log( Object.entries(this.state).forEach(item => console.log(`${item[0]} ${item[1]}`)))   }>log state</button>
       <div className='left'>
-      <div className='classButtons'>
+      <div className="classGrid">
       {Object.entries(classes).sort().map((item, i) => { return <ClassLeveler key={i} className = {item[0]} levelUp={this.levelUp}  levelDown={this.levelDown} />})}
+      
 
       </div>
   
       <div className='importantFeatures'> 
-      {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
-      {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Known {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.round(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
+      {Math.ceil(this.state.characterSpellcasterSlotLevel / 2) > 0 ? <p>Highest Level Spell Slot {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.floor(this.state.characterSpellcasterSlotLevel / 2) : Math.ceil(this.state.characterSpellcasterSlotLevel / 2)} </p> : <p></p>} 
+      {Math.ceil(this.state.characterSpellcasterKnownLevel / 2) > 0 ? <p>Highest Level Spell Known {this.state.characterLevel.length > 1 && this.state.characterLevel.includes('paladin') ||this.state.characterLevel.includes('ranger') ?   Math.floor(this.state.characterSpellcasterKnownLevel / 2) : Math.ceil(this.state.characterSpellcasterKnownLevel / 2)} </p> : <p></p>} 
       {this.state.characterLevel.some(item => spellcastingValue(item) == 'half caster' || spellcastingValue(item) == 'zero caster') ? <p>Number of Attacks {this.state.characterAttacks}</p> : <p></p>}
       {Math.round(this.state.characterSneakAttackLevel / 2) > 0 ? <p>Sneak Attack Dice {Math.round(this.state.characterSneakAttackLevel / 2)}d6</p> : <p></p>}
       </div>
@@ -677,29 +677,26 @@ class ClassLeveler extends React.Component {
 
   render() { 
      return ( 
-      <div className='level'>
-        <div className='classLevelerContainer'> 
-          <div className='level-button-left' onClick={() => {
+      <div class="v-counter">
+        <input type="button" class="minusBtn" value="−"  onClick={() => {
             this.props.levelDown(this.props.className)
             if(this.state.classLevel > 0) {
               this.setState({classLevel: this.state.classLevel - 1})
             }
           
            
-            }}>-</div>
-          <div className="level-val">{this.state.classLevel}</div>
-         
-          <div className='level-button-right' onClick={() => {
+            }}/>
+        <input type="text" size="25" value={this.state.classLevel} class="count" />
+        <input type="button" class="plusBtn" value="+" onClick={() => {
             this.props.levelUp(this.props.className)
             
               this.setState({classLevel: this.state.classLevel + 1})
             
             }
-            }>+</div>
-          <div className='level-class'>{this.props.className}</div>
-        </div> 
+            } />
+        <div className='label'>{this.props.className}</div>
       </div>
-     ); 
+     );
   }
 } 
 
